@@ -1,0 +1,40 @@
+version: '3'
+
+services:  
+
+  redis:
+    image: redis:latest
+    hostname: redis
+
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:latest
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=mypass
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: web
+    command: ./scripts/run_web.sh
+    volumes:
+      - .:/app 
+    ports:
+      - "5000:5000"
+    links:
+      - rabbit
+      - redis
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command:  ./scripts/run_celery.sh
+    volumes:
+      - .:/app
+    links:
+      - rabbit
+      - redis
+    depends_on:
+      - rabbit

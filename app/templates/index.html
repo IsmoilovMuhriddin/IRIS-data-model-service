@@ -1,0 +1,13 @@
+<h1>Predicting IRIS Class by its attributes</h1>
+
+<!-- 'Sepal length', 'Sepal width', 'Petal length','Petal width' -->
+
+<form method="POST" action="{{ url_for('.predict')}}" style="background-color:#CCCCCC">
+    <pre>
+    Sepal length <input name="Sepal length"  type=number step=0.01 min="0.01" max="10.0" required /><br>
+    Sepal width  <input name="Sepal width" type=number step=0.01 min="0.01" max="10.0" required/><br>
+    Petal length <input name="Petal length" type=number step=0.01 min="0.01" max="10.0" required/><br>
+    Petal width  <input name="Petal width" type=number step=0.01 min="0.01" max="10.0" required/><br>
+    <input type="submit" name="Submit" value="Submit">
+    </pre>
+</form >

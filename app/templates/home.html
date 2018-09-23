@@ -1,0 +1,47 @@
+<style>
+    #prog {
+        width: 400px;
+        border: 1px solid red;
+        height: 20px;
+    }
+    #bar {
+        width: 0px;
+        background-color: blue;
+        height: 20px;
+    }
+</style>
+<h3>IRIS Data Prediction</h3>
+<div id="imgpl">Prediction is not yet ready. Please wait...</div>
+<div id="wrapper">
+    <div id="prog">
+        <div id="bar"></div>
+    </div>
+</div>
+<script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+<script>
+    function poll() {
+        $.ajax("{{url_for('.progress', jobid=JOBID)}}", {
+            dataType: "json"
+            , success: function (resp) {
+                $("#bar").css({ width: $("#prog").width() * resp.progress });
+                if ((resp.progress >= 0.99)&&(resp.state !="FAILURE")) {
+                    $("#wrapper").html('');
+                    $("#imgpl").html('<a href="result?jobid={{JOBID}}"> <p>Here will be your pdf result {{resp}}</p></a>');
+
+                    return;
+                } 
+                else if (resp.state == "FAILURE") {
+                    $("#wrapper").html('');
+                    $("#imgpl").html('<p>Some Error ocuured , Task ID = {{JOBID}}, STATE = FAILURE </p>');
+                }
+                else {
+                    setTimeout(poll, 500.0);
+                }
+            }
+        });
+    }
+    $(function () {
+        var JOBID = "{{ JOBID }}";
+        poll();
+    });
+</script>
