@@ -22,6 +22,7 @@ The finished project structure will be as follows:
 ├── app
 │   ├── app.py
 │   ├── tasks.py
+│   ├── finalized_model.sav
 │   └── templates
 │       ├── home.html
 │       └── index.html
@@ -321,3 +322,8 @@ One of the major benefits of Docker is that we can run multiple instances of a c
 where N is the desired number of backend worker nodes.
 
 Visit http://localhost:5000 to view our complete application.
+
+
+#### Special Thanks to:
+* [timlardner](https://github.com/timlardner) for beautiful tutorial on [FlaskCeleryRabbitRedis](https://github.com/timlardner/Docker-FlaskCeleryRabbitRedis)
+* [Jason Brownlee](https://machinelearningmastery.com/about/) for [IRIS Dataset model Tutorial](https://machinelearningmastery.com/machine-learning-in-python-step-by-step/) 
