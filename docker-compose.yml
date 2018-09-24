@@ -5,6 +5,11 @@ services:
   redis:
     image: redis:latest
     hostname: redis
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 1s
+      timeout: 3s
+      retries: 30
 
   rabbit:
     hostname: rabbit
@@ -12,6 +17,15 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=admin
       - RABBITMQ_DEFAULT_PASS=mypass
+    healthcheck:
+      timeout: 5s
+      interval: 5s
+      retries: 5
+      test:
+        - "CMD"
+        - "rabbitmqctl"
+        - "status"
+
   web:
     build:
       context: .
@@ -25,6 +39,11 @@ services:
     links:
       - rabbit
       - redis
+    healthcheck:
+      test: curl --fail -s http://localhost:5000/ || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
   worker:
     build:
@@ -38,3 +57,4 @@ services:
       - redis
     depends_on:
       - rabbit
+          
