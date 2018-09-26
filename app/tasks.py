@@ -1,6 +1,3 @@
-
-
-
 import time
 import random
 import datetime
@@ -16,7 +13,7 @@ model_filename = 'finalized_model.sav'
 loaded_model = joblib.load(model_filename)
 REDIS_URL = 'redis://redis:6379/0'
 BROKER_URL = 'amqp://admin:mypass@rabbit//'
-
+logger = get_task_logger(__name__)
 CELERY = Celery('tasks',
                 backend=REDIS_URL,
                 broker=BROKER_URL)
